@@ -8,7 +8,7 @@ public class Employee {
     private int    id;
     private String namePrefix;
     private String firstName;
-    private char   middleInitial;
+    private String   middleInitial;
     private String lastName;
     private char   gender;
     private String email;
@@ -23,7 +23,7 @@ public class Employee {
     public int    getId()            {return id;}
     public String getNamePrefix()    {return namePrefix;}
     public String getFirstName()     {return firstName;}
-    public char   getMiddleInitial() {return middleInitial;}
+    public String   getMiddleInitial() {return middleInitial;}
     public String getLastName()      {return lastName;}
     public char   getGender()        {return gender;}
     public String getEmail()         {return email;}
@@ -35,7 +35,7 @@ public class Employee {
     public void setId            (int id)             {this.id = id;}
     public void setNamePrefix    (String namePrefix)  {this.namePrefix = namePrefix;}
     public void setFirstName     (String firstName)   {this.firstName = firstName;}
-    public void setMiddleInitial (char middleInitial) {this.middleInitial = middleInitial;}
+    public void setMiddleInitial (String middleInitial) {this.middleInitial = middleInitial;}
     public void setLastName      (String lastName)    {this.lastName = lastName;}
     public void setGender        (char gender)        {this.gender = gender;}
     public void setEmail         (String email)       {this.email = email;}
