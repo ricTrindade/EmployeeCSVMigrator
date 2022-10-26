@@ -2,6 +2,7 @@ package org.sparta.sonic;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ObjectEmployeeArrayCreator {
 
@@ -9,12 +10,17 @@ public class ObjectEmployeeArrayCreator {
     public ArrayList <Employee> validData;
     public ArrayList <Employee> corruptedData;
 
+    private static HashSet <Integer> checkDuplicateID;
+    private static HashSet <String>  checkDuplicateEmail;
+
     // Constructor
     public ObjectEmployeeArrayCreator(String[] array) {
 
         // Initialise Fields
-        validData     = new ArrayList<>();
-        corruptedData = new ArrayList<>();
+        validData           = new ArrayList<>();
+        corruptedData       = new ArrayList<>();
+        checkDuplicateID    = new HashSet<>();
+        checkDuplicateEmail = new HashSet<>();
 
         // Initialise Array
         Employee[] employees = new Employee[array.length-1];
@@ -46,7 +52,20 @@ public class ObjectEmployeeArrayCreator {
 
     private static boolean checkIsValid(Employee employee) {
 
-        return true;
+        if(isDuplicates(employee)) return false;
+        if(employee.getMiddleInitial().equals("FALSE")) return false;
+        if(employee.getGender() == 'X') return false;
+        if(employee.getSalary() <= 0 ) return false;
+        if(employee.getDateOfBirth().after(Date.valueOf("2022-10-28"))) return false;
+        return !employee.getDateOfJoining().after(Date.valueOf("2022-10-28"));
+    }
+
+    private static boolean isDuplicates(Employee employee) {
+
+        boolean checkID = checkDuplicateID.add(employee.getId());
+        boolean checkEmail = checkDuplicateEmail.add(employee.getEmail());
+
+        return !checkID || !checkEmail;
     }
 
     private static String formatTime(String str) {
