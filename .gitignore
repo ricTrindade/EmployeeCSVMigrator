@@ -1,6 +1,10 @@
 # Compiled class file
 *.class
 
+
+# Project build folder
+*/target/**
+
 # Log file
 *.log
 
