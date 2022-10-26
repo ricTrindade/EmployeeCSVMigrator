@@ -2,6 +2,7 @@ package org.sparta.sonic.View;
 
 import org.sparta.sonic.Model.Employee;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +31,22 @@ public class DisplayManager {
         System.out.println("Amount of corrupted records: "+getCorruptedArraySize());
         System.out.println("Amount of duplicates: "+ getDuplicateCount());
     }
+
+    public static void printEmployee(Employee employee)
+    {
+        Field[] fields = employee.getClass().getDeclaredFields();
+        for (Field field : fields)
+        {
+            try {
+                field.setAccessible(true);
+                Object value = field.get(employee);
+                System.out.println(field.getName()+": "+value);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     public int getCleanedArraySize()
     {
