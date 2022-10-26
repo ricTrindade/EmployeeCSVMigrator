@@ -9,7 +9,8 @@ public class Starter {
         );
 
         try {
-            EmployeeDAO employeeDAO = EmployeeDAOFactory.generateEmployee("employee", db);
+            EmployeeDAO employeeDAO = EmployeeDAOFactory.generateEmployeeDAO("employee", db);
+
         } catch (EmployeeLoaderException e) {
             e.printStackTrace();
         }
