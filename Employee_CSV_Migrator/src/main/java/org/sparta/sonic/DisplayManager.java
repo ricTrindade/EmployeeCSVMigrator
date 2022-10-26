@@ -24,18 +24,29 @@ public class DisplayManager {
 
     public void PrintAll()
     {
-        System.out.println("Amount of unique records: "+cleanedArrayList.size());
-        System.out.println("Amount of corrupted records: "+corruptedArrayList.size());
-        PrintDuplicateCount();
+        System.out.println("Amount of unique records: "+getCleanedArraySize());
+        System.out.println("Amount of corrupted records: "+getCorruptedArraySize());
+        System.out.println("Amount of duplicates: "+ getDuplicateCount());
     }
 
+    public int getCleanedArraySize()
+    {
+        return cleanedArrayList.size();
+    }
+
+    public int getCorruptedArraySize()
+    {
+        return corruptedArrayList.size();
+    }
+
+
     //how many duplicates
-    private void PrintDuplicateCount()
+    //want to change to private but public for testing?
+    public int getDuplicateCount()
     {
         //sets have to be unique whereas arraylists dont
         //so just compare size to see how many are unique
         Set<Employee> corruptedSet = new HashSet<>(corruptedArrayList);
-        int duplicateCounter = corruptedArrayList.size() - corruptedSet.size();
-        System.out.println("Amount of duplicates: "+ duplicateCounter);
+        return corruptedArrayList.size() - corruptedSet.size();
     }
 }

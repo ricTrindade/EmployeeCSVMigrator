@@ -5,31 +5,33 @@ import java.sql.Date;
 public class Employee {
 
     // Fields
-    private int    id;
-    private String namePrefix;
-    private String firstName;
-    private String middleInitial;
-    private String lastName;
-    private char   gender;
-    private String email;
-    private Date   dateOfBirth;
-    private Date   dateOfJoining;
-    private int    salary;
+    private int     id;
+    private String  namePrefix;
+    private String  firstName;
+    private String  middleInitial;
+    private String  lastName;
+    private char    gender;
+    private String  email;
+    private Date    dateOfBirth;
+    private Date    dateOfJoining;
+    private int     salary;
+    private boolean isValid;
 
     // Constructors
     public Employee() {}
 
     // Getters
-    public int    getId()            {return id;}
-    public String getNamePrefix()    {return namePrefix;}
-    public String getFirstName()     {return firstName;}
-    public String getMiddleInitial() {return middleInitial;}
-    public String getLastName()      {return lastName;}
-    public char   getGender()        {return gender;}
-    public String getEmail()         {return email;}
-    public Date   getDateOfBirth()   {return dateOfBirth;}
-    public Date   getDateOfJoining() {return dateOfJoining;}
-    public int    getSalary()        {return salary;}
+    public int     getId()            {return id;}
+    public String  getNamePrefix()    {return namePrefix;}
+    public String  getFirstName()     {return firstName;}
+    public String  getMiddleInitial() {return middleInitial;}
+    public String  getLastName()      {return lastName;}
+    public char    getGender()        {return gender;}
+    public String  getEmail()         {return email;}
+    public Date    getDateOfBirth()   {return dateOfBirth;}
+    public Date    getDateOfJoining() {return dateOfJoining;}
+    public int     getSalary()        {return salary;}
+    public boolean getIsValid()       {return isValid;}
 
     // Setters
     public void setId            (int id)               {this.id = id;}
@@ -42,4 +44,5 @@ public class Employee {
     public void setDateOfBirth   (Date dateOfBirth)     {this.dateOfBirth = dateOfBirth;}
     public void setDateOfJoining (Date dateOfJoining)   {this.dateOfJoining = dateOfJoining;}
     public void setSalary        (int salary)           {this.salary = salary;}
+    public void setIsValid       (boolean isValid)      {this.isValid = isValid;}
 }
