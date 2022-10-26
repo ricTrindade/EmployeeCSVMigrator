@@ -30,7 +30,7 @@ public class DisplayManager {
         System.out.println("Amount of duplicates: "+ getDuplicateCount());
     }
 
-    public void printEmployee(Employee employee)
+    public static void printEmployee(Employee employee)
     {
         Field[] fields = employee.getClass().getDeclaredFields();
         for (Field field : fields)

@@ -9,11 +9,17 @@ public class Starter {
 
 
         String[] x = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsMini.csv", 11);
-
         ObjectEmployeeArrayCreator obj = new ObjectEmployeeArrayCreator(x);
-
         ArrayList <Employee> badList = obj.corruptedData;
+        ArrayList <Employee> goodList = obj.validData;
 
-        System.out.println(badList.size());
+        for(int i=0; i<goodList.size(); i++) {
+
+            System.out.println(i);
+            DisplayManager.printEmployee(goodList.get(i));
+            System.out.println("");
+        }
+
+        //System.out.println(badList.size());
     }
 }

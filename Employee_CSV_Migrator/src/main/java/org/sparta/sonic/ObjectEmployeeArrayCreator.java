@@ -1,7 +1,6 @@
 package org.sparta.sonic;
 
 import java.sql.Date;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -53,22 +52,20 @@ public class ObjectEmployeeArrayCreator {
 
     private static boolean checkIsValid(Employee employee) {
 
+        if(isDuplicates(employee)) return false;
         if(employee.getMiddleInitial().equals("FALSE")) return false;
         if(employee.getGender() == 'X') return false;
         if(employee.getSalary() <= 0 ) return false;
         if(employee.getDateOfBirth().after(Date.valueOf("2022-10-28"))) return false;
-        if(employee.getDateOfJoining().after(Date.valueOf("2022-10-28"))) return false;
-        if(!checkForDuplicates(employee)) return false;
-
-        return true;
+        return !employee.getDateOfJoining().after(Date.valueOf("2022-10-28"));
     }
 
-    private static boolean checkForDuplicates(Employee employee) {
+    private static boolean isDuplicates(Employee employee) {
 
         boolean checkID = checkDuplicateID.add(employee.getId());
         boolean checkEmail = checkDuplicateEmail.add(employee.getEmail());
 
-        return checkID || checkEmail;
+        return !checkID || !checkEmail;
     }
 
     private static String formatTime(String str) {
