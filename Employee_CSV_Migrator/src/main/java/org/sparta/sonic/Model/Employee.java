@@ -1,4 +1,4 @@
-package org.sparta.sonic;
+package org.sparta.sonic.Model;
 
 import java.sql.Date;
 

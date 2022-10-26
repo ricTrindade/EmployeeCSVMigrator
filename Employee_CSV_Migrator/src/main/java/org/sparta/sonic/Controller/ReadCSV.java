@@ -1,4 +1,4 @@
-package org.sparta.sonic;
+package org.sparta.sonic.Controller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

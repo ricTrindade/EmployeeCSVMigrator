@@ -1,4 +1,6 @@
-package org.sparta.sonic;
+package org.sparta.sonic.Controller;
+
+import org.sparta.sonic.Model.Employee;
 
 import java.sql.Date;
 import java.util.ArrayList;

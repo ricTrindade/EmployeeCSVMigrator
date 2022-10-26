@@ -1,4 +1,6 @@
-package org.sparta.sonic;
+package org.sparta.sonic.View;
+
+import org.sparta.sonic.Model.Employee;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
