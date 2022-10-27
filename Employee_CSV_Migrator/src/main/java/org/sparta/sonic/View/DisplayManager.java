@@ -43,7 +43,6 @@ public class DisplayManager {
     }
 
     public static void printEmployee(Employee employee) {
-        logger.log(Level.FINEST, "Method has started");
         Field[] fields = employee.getClass().getDeclaredFields();
         for (Field field : fields)
         {

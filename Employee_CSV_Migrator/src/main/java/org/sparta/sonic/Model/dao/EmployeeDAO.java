@@ -19,4 +19,9 @@ public interface EmployeeDAO {
 
     void createEmployeeTable();
 
+    void insertEmployeesConcurrent(ArrayList<Employee> employees);
+
+    int[] insertEmployees(ArrayList<Employee> employees);
+
+    int[] insertEmployees(ArrayList<Employee> employees, int start, int end);
 }

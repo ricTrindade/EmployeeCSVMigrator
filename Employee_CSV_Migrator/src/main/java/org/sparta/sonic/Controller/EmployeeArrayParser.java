@@ -1,12 +1,16 @@
 package org.sparta.sonic.Controller;
 
 import org.sparta.sonic.Model.Employee;
+import org.sparta.sonic.utility.logging.LoggerSingleton;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EmployeeArrayParser {
+    private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
 
     // Fields
     public ArrayList <Employee> validData;
@@ -47,24 +51,54 @@ public class EmployeeArrayParser {
 
         // Add to ArrayList
         if(employee.getIsValid()) validData.add(employee);
+
         else corruptedData.add(employee);
 
     }
 
     private static boolean checkIsValid(Employee employee) {
 
-        if(isDuplicates(employee)) return false;
-        if(employee.getMiddleInitial().equals("FALSE")) return false;
-        if(employee.getGender() == 'X') return false;
-        if(employee.getSalary() <= 0 ) return false;
-        if(employee.getDateOfBirth().after(Date.valueOf("2022-10-28"))) return false;
-        return !employee.getDateOfJoining().after(Date.valueOf("2022-10-28"));
+        if(isDuplicates(employee))
+        {
+            //logger.log(Level.FINEST, "Duplicate");
+            return false;
+        }
+        if(employee.getMiddleInitial().equals("FALSE")) {
+            logger.log(Level.FINEST, "Middle initial");
+            return false;
+        }
+        if(employee.getGender() == 'X') {
+            logger.log(Level.FINEST, "Gender");
+            return false;
+        }
+        if(employee.getSalary() <= 0 ) {
+            logger.log(Level.FINEST, "Salary");
+            return false;
+        }
+        if(employee.getDateOfBirth().after(Date.valueOf("2022-10-28"))) {
+            logger.log(Level.FINEST, "DOB");
+            return false;
+        }
+        if(employee.getDateOfJoining().after(Date.valueOf("2022-10-28")))
+        {
+            logger.log(Level.FINEST, "Date of joining"+employee.getDateOfJoining());
+            return false;
+        }
+        return true;
     }
 
     private static boolean isDuplicates(Employee employee) {
-
         boolean checkID = checkDuplicateID.add(employee.getId());
         boolean checkEmail = checkDuplicateEmail.add(employee.getEmail());
+
+        if(!checkEmail)
+        {
+            logger.log(Level.FINEST, "ID: "+employee.getId()+" Email duplicate: "+ employee.getEmail());
+        }
+        if(!checkID)
+        {
+            logger.log(Level.FINEST, "ID duplicate"+ employee.getId());
+        }
 
         return !checkID || !checkEmail;
     }
