@@ -11,7 +11,7 @@ public class ReadCSV {
         String[] strArray = new String[fileLength];
 
         String line;
-        try (FileReader fileReader = new FileReader(filename)){
+        try (FileReader fileReader = new FileReader(System.getProperty("user.dir") + filename)){
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int i=0;
             while((line = bufferedReader.readLine()) != null) {
