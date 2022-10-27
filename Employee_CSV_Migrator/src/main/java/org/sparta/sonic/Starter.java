@@ -25,7 +25,6 @@ public class Starter {
         }
 
 
-
         EmployeeArrayParser obj = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsMini.csv", 11);
 
 
