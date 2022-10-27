@@ -1,16 +1,13 @@
 package org.sparta.sonic;
 
 
-import org.sparta.sonic.Controller.ObjectEmployeeArrayCreator;
+import org.sparta.sonic.Controller.EmployeeArrayParser;
 import org.sparta.sonic.Controller.ReadCSV;
 import org.sparta.sonic.Controller.db.DBConnection;
-import org.sparta.sonic.Model.Employee;
 import org.sparta.sonic.Model.dao.EmployeeDAO;
 import org.sparta.sonic.Model.factory.EmployeeDAOFactory;
 import org.sparta.sonic.Model.exception.EmployeeLoaderException;
 import org.sparta.sonic.View.DisplayManager;
-
-import java.util.ArrayList;
 
 
 public class Starter {
@@ -28,15 +25,13 @@ public class Starter {
         }
 
 
-        String[] x = ReadCSV.connectToFile("/src/main/resources/EmployeeRecordsMini.csv", 11);
-        ObjectEmployeeArrayCreator obj = new ObjectEmployeeArrayCreator(x);
-        ArrayList <Employee> badList = obj.corruptedData;
-        ArrayList <Employee> goodList = obj.validData;
+        EmployeeArrayParser obj = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsMini.csv", 11);
 
-        for(int i=0; i<goodList.size(); i++) {
+
+        for(int i=0; i<obj.validData.size(); i++) {
 
             System.out.println(i);
-            DisplayManager.printEmployee(goodList.get(i));
+            DisplayManager.printEmployee(obj.validData.get(i));
             System.out.println("");
         }
 

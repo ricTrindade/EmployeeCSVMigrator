@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class ObjectEmployeeArrayCreator {
+public class EmployeeArrayParser {
 
     // Fields
     public ArrayList <Employee> validData;
@@ -16,40 +16,39 @@ public class ObjectEmployeeArrayCreator {
     private static HashSet <String>  checkDuplicateEmail;
 
     // Constructor
-    public ObjectEmployeeArrayCreator(String[] array) {
+    public EmployeeArrayParser() {
 
         // Initialise Fields
         validData           = new ArrayList<>();
         corruptedData       = new ArrayList<>();
         checkDuplicateID    = new HashSet<>();
         checkDuplicateEmail = new HashSet<>();
+    }
 
-        // Initialise Array
-        Employee[] employees = new Employee[array.length-1];
+    public void addEmployeesToArrayLists(String str) {
 
-        for(int i=0; i<employees.length; i++) {
+        // Initialise Object
+        Employee employee = new Employee();
 
-            // Initialise Object
-            employees[i] = new Employee();
+        // Set Object fields
+        String[] fields = str.split(",");
 
-            // Set Object fields
-            String[] fields = array[i+1].split(",");
-            employees[i].setId(Integer.parseInt(fields[0]));
-            employees[i].setNamePrefix(fields[1]);
-            employees[i].setFirstName(fields[2]);
-            employees[i].setMiddleInitial(fields[3]);
-            employees[i].setLastName(fields[4]);
-            employees[i].setGender(fields[5].charAt(0));
-            employees[i].setEmail(fields[6]);
-            employees[i].setDateOfBirth(Date.valueOf(formatTime(fields[7])));
-            employees[i].setDateOfJoining(Date.valueOf(formatTime(fields[8])));
-            employees[i].setSalary(Integer.parseInt(fields[9]));
-            employees[i].setIsValid(checkIsValid(employees[i]));
+        employee.setId(Integer.parseInt(fields[0]));
+        employee.setNamePrefix(fields[1]);
+        employee.setFirstName(fields[2]);
+        employee.setMiddleInitial(fields[3]);
+        employee.setLastName(fields[4]);
+        employee.setGender(fields[5].charAt(0));
+        employee.setEmail(fields[6]);
+        employee.setDateOfBirth(Date.valueOf(formatTime(fields[7])));
+        employee.setDateOfJoining(Date.valueOf(formatTime(fields[8])));
+        employee.setSalary(Integer.parseInt(fields[9]));
+        employee.setIsValid(checkIsValid(employee));
 
-            // Add to ArrayList
-            if(employees[i].getIsValid()) validData.add(employees[i]);
-            else corruptedData.add(employees[i]);
-        }
+        // Add to ArrayList
+        if(employee.getIsValid()) validData.add(employee);
+        else corruptedData.add(employee);
+
     }
 
     private static boolean checkIsValid(Employee employee) {
