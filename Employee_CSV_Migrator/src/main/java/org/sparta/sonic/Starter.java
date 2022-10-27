@@ -20,7 +20,7 @@ public class Starter {
     private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
 
     public static void start() {
-        long startTime = System.nanoTime();
+
 
         DBConnection db = new DBConnection(
                 "/src/main/resources/db.properties",
@@ -36,15 +36,21 @@ public class Starter {
         }
 
 
-        EmployeeArrayParser employeeParser = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsLarge.csv", 65501);
+
+        EmployeeArrayParser employeeParser = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsLarge.csv");
 
         if (employeeDAO != null) {
             employeeDAO.dropEmployeeTable();
             employeeDAO.createEmployeeTable();
 
-            employeeDAO.insertEmployees(employeeParser.validData, false);
-            System.out.println("Time taken: "+ (System.nanoTime()-startTime) / 1000000000F + " seconds");
-            System.out.println(employeeParser.validData.size());
+
+
+            long startTime = System.nanoTime();
+            //employeeDAO.insertEmployees(employeeParser.validData, false);
+            employeeDAO.insertEmployeesConcurrent(employeeParser.validData);
+
+            System.out.println("Time taken to insert: "+ (System.nanoTime()-startTime) / 1000000000F + " seconds");
+
 
             /*
             try {
@@ -55,8 +61,6 @@ public class Starter {
 
              */
 
-
-            //DisplayManager.printEmployees(employeeParser.corruptedData);
         } else {
             logger.log(Level.INFO, "employeeDAO was not instantiated");
         }

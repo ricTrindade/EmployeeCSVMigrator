@@ -6,13 +6,15 @@ import java.io.IOException;
 
 public class ReadCSV {
 
-    public static EmployeeArrayParser connectToFile(String filename, int fileLength){
+    public static EmployeeArrayParser connectToFile(String filename){
+        int lineCount = 0;
 
         EmployeeArrayParser employeeArrayParser = new EmployeeArrayParser();
 
         String line;
         try (FileReader fileReader = new FileReader(filename)){
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+
             //int i=0;
             bufferedReader.readLine();
             while((line = bufferedReader.readLine()) != null) {
