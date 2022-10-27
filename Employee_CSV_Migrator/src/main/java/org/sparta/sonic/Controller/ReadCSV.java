@@ -6,20 +6,25 @@ import java.io.IOException;
 
 public class ReadCSV {
 
-    public static String[] connectToFile(String filename, int fileLength){
+    public static EmployeeArrayParser connectToFile(String filename, int fileLength){
 
-        String[] strArray = new String[fileLength];
+        //String[] strArray = new String[fileLength];
+
+        EmployeeArrayParser employeeArrayParser = new EmployeeArrayParser();
 
         String line;
         try (FileReader fileReader = new FileReader(filename)){
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int i=0;
+            //int i=0;
+            bufferedReader.readLine();
             while((line = bufferedReader.readLine()) != null) {
-                strArray[i++] = line;
+                //strArray[i++] = line;
+                employeeArrayParser.addEmployeesToArrayLists(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return strArray;
+        //return strArray;
+        return employeeArrayParser;
     }
 }
