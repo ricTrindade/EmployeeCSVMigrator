@@ -63,8 +63,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void insertEmployee(Employee employee) {
-        try (PreparedStatement preparedStatement = db.connect().prepareStatement(PreparedSQL.INSERT_EMPLOYEE.getStatement())) {
+    public int insertEmployee(Employee employee, boolean test) {
+        int changedRows = 0;
+        Savepoint savePoint = null;
+        try (Connection connection = db.connect()) {
+            connection.setAutoCommit(false);
+            if(test) {
+                savePoint = connection.setSavepoint();
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement(PreparedSQL.INSERT_EMPLOYEE.getStatement());
+
+
             preparedStatement.setInt(1,     employee.getId());
             preparedStatement.setString(2,  employee.getNamePrefix());
             preparedStatement.setString(3,  employee.getFirstName());
@@ -76,19 +85,32 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             preparedStatement.setDate(9,    employee.getDateOfJoining());
             preparedStatement.setInt(10,    employee.getSalary());
 
-            int changedRows = preparedStatement.executeUpdate();
+            changedRows = preparedStatement.executeUpdate();
+
+            if(test) {
+                connection.rollback(savePoint);
+            } else {
+                connection.commit();
+            }
+
             if (changedRows == 0) {
                 System.out.println("Employee with id " + employee.getId() + " Could not be inserted"); // TODO LOG NO ROWS CHANGED
             }
+
+            preparedStatement.close(); // statement is not closed automatically
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return changedRows;
     }
 
     @Override
-    public void insertEmployees(ArrayList<Employee> employees) {
+    public int[] insertEmployees(ArrayList<Employee> employees, boolean test) {
+        int[] changedRows = new int[0];
+        Savepoint savePoint = null;
         try (Connection connection = db.connect()) {
             connection.setAutoCommit(false);
+            if(test) { savePoint = connection.setSavepoint();}
             PreparedStatement preparedStatement = connection.prepareStatement(PreparedSQL.INSERT_EMPLOYEE.getStatement());
 
             for (Employee employee : employees) {
@@ -105,16 +127,23 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 preparedStatement.addBatch();
             }
 
-            int[] changedRows = preparedStatement.executeBatch();
-            connection.commit();
-            preparedStatement.close(); // statement is not closed automatically
+            changedRows = preparedStatement.executeBatch();
+            if(test) {
+                connection.rollback(savePoint);
+            } else {
+                connection.commit();
+            }
+
             if (changedRows.length > 1) {
                 System.out.println("Output of changed rows in database after insert: " + Arrays.toString(changedRows)); // TODO LOG NO ROWS CHANGED
             }
 
+            preparedStatement.close(); // statement is not closed automatically
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return changedRows;
     }
 
     @Override

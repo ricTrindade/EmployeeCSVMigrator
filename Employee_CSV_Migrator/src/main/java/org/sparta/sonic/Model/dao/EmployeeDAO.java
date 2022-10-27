@@ -11,9 +11,9 @@ public interface EmployeeDAO {
 
     Employee selectEmployeeById(final int id) throws SQLRowNotFoundException;
 
-    void insertEmployee(Employee employee);
+    int insertEmployee(Employee employee, boolean test);
 
-    void insertEmployees(ArrayList<Employee> employees);
+    int[] insertEmployees(ArrayList<Employee> employees, boolean test);
 
     void dropEmployeeTable();
 
