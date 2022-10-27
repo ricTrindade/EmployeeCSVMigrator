@@ -13,7 +13,7 @@ public class ReadCSV {
         EmployeeArrayParser employeeArrayParser = new EmployeeArrayParser();
 
         String line;
-        try (FileReader fileReader = new FileReader(filename)){
+        try (FileReader fileReader = new FileReader(System.getProperty("user.dir") + filename)){
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             //int i=0;
             bufferedReader.readLine();

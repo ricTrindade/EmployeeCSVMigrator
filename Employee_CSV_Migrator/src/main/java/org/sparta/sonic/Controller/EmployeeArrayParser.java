@@ -69,7 +69,7 @@ public class EmployeeArrayParser {
         return !checkID || !checkEmail;
     }
 
-    private static String formatTime(String str) {
+    public static String formatTime(String str) {
 
         String[] strArray = str.split("/");
         return strArray[2] + "-" + strArray[0] + "-" + strArray[1];

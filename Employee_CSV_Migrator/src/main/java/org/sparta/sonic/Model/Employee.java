@@ -20,6 +20,30 @@ public class Employee {
     // Constructors
     public Employee() {}
 
+    public Employee(
+        int    id,
+        String namePrefix,
+        String firstName,
+        String middleInitial,
+        String lastName,
+        char   gender,
+        String email,
+        Date   dateOfBirth,
+        Date   dateOfJoining,
+        int    salary
+    ) {
+        this.id=id;
+        this.namePrefix=namePrefix;
+        this.firstName=firstName;
+        this.middleInitial=middleInitial;
+        this.lastName=lastName;
+        this.gender=gender;
+        this.email=email;
+        this.dateOfBirth=dateOfBirth;
+        this.dateOfJoining=dateOfJoining;
+        this.salary=salary;
+    }
+
     // Getters
     public int     getId()            {return id;}
     public String  getNamePrefix()    {return namePrefix;}
