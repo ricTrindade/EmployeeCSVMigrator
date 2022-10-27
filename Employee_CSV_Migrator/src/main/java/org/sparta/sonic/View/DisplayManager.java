@@ -29,15 +29,20 @@ public class DisplayManager {
         this.corruptedArrayList = corruptedArrayList;
     }
 
-    public void PrintAll()
-    {
+    public void PrintAll() {
         System.out.println("Amount of unique records: "+getCleanedArraySize());
         System.out.println("Amount of corrupted records: "+getCorruptedArraySize());
         System.out.println("Amount of duplicates: "+ getDuplicateCount());
     }
 
-    public static void printEmployee(Employee employee)
-    {
+    public static void printEmployees(ArrayList<Employee> employees) {
+        for (Employee employee : employees) {
+            printEmployee(employee);
+            System.out.print("\n");
+        }
+    }
+
+    public static void printEmployee(Employee employee) {
         logger.log(Level.FINEST, "Method has started");
         Field[] fields = employee.getClass().getDeclaredFields();
         for (Field field : fields)
@@ -45,7 +50,9 @@ public class DisplayManager {
             try {
                 field.setAccessible(true);
                 Object value = field.get(employee);
-                System.out.println(field.getName()+": "+value);
+                if (!field.getName().equals("isValid")) {
+                    System.out.println(field.getName()+": "+value);
+                }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -53,21 +60,18 @@ public class DisplayManager {
     }
 
 
-    public int getCleanedArraySize()
-    {
+    public int getCleanedArraySize() {
         return cleanedArrayList.size();
     }
 
-    public int getCorruptedArraySize()
-    {
+    public int getCorruptedArraySize() {
         return corruptedArrayList.size();
     }
 
 
     //how many duplicates
     //want to change to private but public for testing?
-    public int getDuplicateCount()
-    {
+    public int getDuplicateCount() {
         //sets have to be unique whereas arraylists dont
         //so just compare size to see how many are unique
         Set<Employee> corruptedSet = new HashSet<>(corruptedArrayList);

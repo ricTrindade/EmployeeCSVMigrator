@@ -1,14 +1,13 @@
 package org.sparta.sonic;
 
 import org.junit.jupiter.api.*;
-import org.sparta.sonic.Controller.ObjectEmployeeArrayCreator;
+import org.sparta.sonic.Controller.EmployeeArrayParser;
 import org.sparta.sonic.Controller.db.DBConnection;
 import org.sparta.sonic.Model.Employee;
 import org.sparta.sonic.Model.dao.EmployeeDAO;
-import org.sparta.sonic.Model.dao.EmployeeDAOImpl;
 import org.sparta.sonic.Model.exception.EmployeeLoaderException;
 import org.sparta.sonic.Model.factory.EmployeeDAOFactory;
-import org.sparta.sonic.Model.factory.EmployeeFactory;
+
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -51,8 +50,8 @@ public class EmployeeDAOTest {
                 "Rojo",
                 'F',
                 "serafina.bumgarner@exxonmobil.com",
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("5/8/1967")),
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("6/4/2011")),
+                Date.valueOf(EmployeeArrayParser.formatTime("5/8/1967")),
+                Date.valueOf(EmployeeArrayParser.formatTime("6/4/2011")),
                 69294
         );
 
@@ -71,8 +70,8 @@ public class EmployeeDAOTest {
                 "Rojo",
                 'F',
                 "serafina.bumgarner@exxonmobil.com",
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("5/8/1967")),
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("6/4/2011")),
+                Date.valueOf(EmployeeArrayParser.formatTime("5/8/1967")),
+                Date.valueOf(EmployeeArrayParser.formatTime("6/4/2011")),
                 69294
         );
 
@@ -84,8 +83,8 @@ public class EmployeeDAOTest {
                 "Rojo",
                 'F',
                 "serafina.bumgarner@exxonmobil.com",
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("5/8/1967")),
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("6/4/2011")),
+                Date.valueOf(EmployeeArrayParser.formatTime("5/8/1967")),
+                Date.valueOf(EmployeeArrayParser.formatTime("6/4/2011")),
                 69294
         );
 
@@ -97,8 +96,8 @@ public class EmployeeDAOTest {
                 "Rojo",
                 'F',
                 "serafina.bumgarner@exxonmobil.com",
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("5/8/1967")),
-                Date.valueOf(ObjectEmployeeArrayCreator.formatTime("6/4/2011")),
+                Date.valueOf(EmployeeArrayParser.formatTime("5/8/1967")),
+                Date.valueOf(EmployeeArrayParser.formatTime("6/4/2011")),
                 69294
         );
         ArrayList<Employee> employees = new ArrayList<>();
