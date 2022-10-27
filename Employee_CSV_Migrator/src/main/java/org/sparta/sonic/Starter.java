@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 public class Starter {
 
     private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
+    private static int expectedEmployeeCount = 100;
+
 
     public static void start() {
 
@@ -65,5 +67,13 @@ public class Starter {
             logger.log(Level.INFO, "employeeDAO was not instantiated");
         }
         //System.out.println(badList.size());
+    }
+
+    public static int getExpectedEmployeeCount() {
+        return expectedEmployeeCount;
+    }
+
+    public static void setExpectedEmployeeCount(int expectedEmployeeCount) {
+        Starter.expectedEmployeeCount = expectedEmployeeCount;
     }
 }

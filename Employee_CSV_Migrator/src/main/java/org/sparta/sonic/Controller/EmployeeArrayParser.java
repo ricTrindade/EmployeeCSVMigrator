@@ -1,6 +1,7 @@
 package org.sparta.sonic.Controller;
 
 import org.sparta.sonic.Model.Employee;
+import org.sparta.sonic.Starter;
 import org.sparta.sonic.utility.logging.LoggerSingleton;
 
 import java.sql.Date;
@@ -23,8 +24,8 @@ public class EmployeeArrayParser {
     public EmployeeArrayParser() {
 
         // Initialise Fields
-        validData           = new ArrayList<>();
-        corruptedData       = new ArrayList<>();
+        validData           = new ArrayList<>(Starter.getExpectedEmployeeCount());
+        corruptedData       = new ArrayList<>(100);
         checkDuplicateID    = new HashSet<>();
         checkDuplicateEmail = new HashSet<>();
     }
