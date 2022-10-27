@@ -8,6 +8,9 @@
 # Log file
 *.log
 
+# DB config files
+*.properties
+
 # BlueJ files
 *.ctxt
 

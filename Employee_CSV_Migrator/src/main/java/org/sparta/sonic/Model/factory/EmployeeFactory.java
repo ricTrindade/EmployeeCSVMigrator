@@ -25,4 +25,6 @@ public class EmployeeFactory {
             throw new EmployeeLoaderException("Could not create employee from resultset: " + set.toString());
         }
     }
+
+
 }
