@@ -5,6 +5,7 @@ import org.sparta.sonic.Controller.EmployeeArrayParser;
 import org.sparta.sonic.Controller.ReadCSV;
 import org.sparta.sonic.Controller.db.DBConnection;
 import org.sparta.sonic.Model.dao.EmployeeDAO;
+import org.sparta.sonic.Model.dao.EmployeeDAOImpl;
 import org.sparta.sonic.Model.exception.SQLRowNotFoundException;
 import org.sparta.sonic.Model.factory.EmployeeDAOFactory;
 import org.sparta.sonic.Model.exception.EmployeeLoaderException;
@@ -22,7 +23,7 @@ public class Starter {
 
 
     public static void start() {
-
+        long startTime = System.nanoTime();
 
         DBConnection db = new DBConnection(
                 "/src/main/resources/db.properties",
@@ -46,8 +47,6 @@ public class Starter {
             employeeDAO.createEmployeeTable();
 
 
-
-            long startTime = System.nanoTime();
             //employeeDAO.insertEmployees(employeeParser.validData, false);
             employeeDAO.insertEmployeesConcurrent(employeeParser.validData);
 
@@ -67,6 +66,45 @@ public class Starter {
             logger.log(Level.INFO, "employeeDAO was not instantiated");
         }
         //System.out.println(badList.size());
+    }
+
+    public static long start(int threadCount) {
+        long startTime = System.nanoTime();
+
+        DBConnection db = new DBConnection(
+                "/src/main/resources/db.properties",
+                "/src/main/resources/login.properties"
+        );
+
+        EmployeeDAO employeeDAO = null;
+
+        try {
+            employeeDAO = EmployeeDAOFactory.generateEmployeeDAO("employee", db);
+        } catch (EmployeeLoaderException e) {
+            e.printStackTrace();
+        }
+
+        EmployeeDAOImpl.threadCount = threadCount;
+
+
+        EmployeeArrayParser employeeParser = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsLarge.csv");
+
+        if (employeeDAO != null) {
+            employeeDAO.dropEmployeeTable();
+            employeeDAO.createEmployeeTable();
+
+
+
+            //employeeDAO.insertEmployees(employeeParser.validData, false);
+            employeeDAO.insertEmployeesConcurrent(employeeParser.validData);
+
+            return System.nanoTime() - startTime;
+
+        } else {
+            logger.log(Level.INFO, "employeeDAO was not instantiated");
+        }
+
+        return 0;
     }
 
     public static int getExpectedEmployeeCount() {

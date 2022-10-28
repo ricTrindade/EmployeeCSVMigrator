@@ -6,14 +6,22 @@ import org.sparta.sonic.Model.PreparedSQL;
 import org.sparta.sonic.Model.exception.EmployeeLoaderException;
 import org.sparta.sonic.Model.exception.SQLRowNotFoundException;
 import org.sparta.sonic.Model.factory.EmployeeFactory;
+import org.sparta.sonic.utility.logging.LoggerSingleton;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     private final DBConnection db;
+
+    private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
+
+    public static int threadCount = 30;
+
 
     public EmployeeDAOImpl(DBConnection db) {
         this.db = db;
@@ -216,7 +224,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 connection.commit();
 
                 if (changedRows.length > 1) {
-                    System.out.println("Output of changed rows in database after insert: " + Arrays.toString(changedRows)); // TODO LOG NO ROWS CHANGED
+                    logger.log(Level.FINE, "Output of changed rows in database after insert: " + Arrays.toString(changedRows)); // TODO LOG NO ROWS CHANGED
                 }
 
                 preparedStatement.close(); // statement is not closed automatically
@@ -230,7 +238,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public void insertEmployeesConcurrent(ArrayList<Employee> employees) {
-        int threadCount = 14;
         int sizePerArray = employees.size()/threadCount;
         int remainder = employees.size()%threadCount;
         int remainderStart = 0;
@@ -246,9 +253,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             threadArray[i] = new Thread(){
                 public void run() {
 
-                    int[] ints = insertEmployees(employees, finalI * sizePerArray
+                    insertEmployees(employees, finalI * sizePerArray
                             , (finalI + 1) * sizePerArray);
-                    System.out.println("Thread: "+finalI);
                 }
             };
             threadArray[i].start();
@@ -263,9 +269,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Thread lastThread = new Thread(){
             public void run() {
 
-                int[] ints = insertEmployees(employees, finalRemainderStart
+                insertEmployees(employees, finalRemainderStart
                         , finalRemainderStart1 +remainder);
-                System.out.println("FINAL THREAD");
             }
         };
         lastThread.start();
