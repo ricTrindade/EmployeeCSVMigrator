@@ -20,7 +20,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
 
-    public static int threadCount = 30;
+    public static int threadCount = 46;
 
 
     public EmployeeDAOImpl(DBConnection db) {

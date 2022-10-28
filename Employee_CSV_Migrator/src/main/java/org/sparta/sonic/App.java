@@ -6,6 +6,7 @@ public class App  {
 
         Starter.setExpectedEmployeeCount(ArgumentHandler.getRowCount(args));
         Starter.start();
+
     }
 
 

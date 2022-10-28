@@ -19,7 +19,6 @@ public class Starter {
     private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
     private static int expectedEmployeeCount = 100;
 
-
     public static void start() {
         long startTime = System.nanoTime();
 
@@ -49,7 +48,7 @@ public class Starter {
             employeeDAO.insertEmployeesConcurrent(employeeParser.validData);
 
             System.out.println("Time taken to insert: "+ (System.nanoTime()-startTime) / 1000000000F + " seconds");
-            DisplayManager.getSummaryOfRecords(employeeParser.validData, employeeParser.corruptedData, employeeParser.duplicateCounter);
+            //DisplayManager.getSummaryOfRecords(employeeParser.validData, employeeParser.corruptedData, employeeParser.duplicateCounter);
 
 
         } else {
