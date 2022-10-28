@@ -4,7 +4,7 @@ public enum PreparedSQL {
     DROP_EMPLOYEE_TABLE     ("DROP TABLE IF EXISTS employee"),
     CREATE_EMPLOYEE_TABLE   (
             "CREATE TABLE employee ("          +
-                    "id MEDIUMINT NOT NULL"              + ", " +
+                    "id MEDIUMINT "                      + ", " +
                     "name_prefix VARCHAR(5)"             + ", " +
                     "first_name VARCHAR(30)"             + ", " +
                     "middle_initial VARCHAR(1)"          + ", " +

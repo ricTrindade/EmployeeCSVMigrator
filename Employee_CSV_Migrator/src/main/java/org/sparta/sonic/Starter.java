@@ -5,12 +5,10 @@ import org.sparta.sonic.Controller.EmployeeArrayParser;
 import org.sparta.sonic.Controller.ReadCSV;
 import org.sparta.sonic.Controller.db.DBConnection;
 import org.sparta.sonic.Model.dao.EmployeeDAO;
-import org.sparta.sonic.Model.exception.SQLRowNotFoundException;
 import org.sparta.sonic.Model.factory.EmployeeDAOFactory;
 import org.sparta.sonic.Model.exception.EmployeeLoaderException;
 import org.sparta.sonic.View.DisplayManager;
 import org.sparta.sonic.utility.logging.LoggerSingleton;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +21,6 @@ public class Starter {
 
     public static void start() {
 
-
         DBConnection db = new DBConnection(
                 "/src/main/resources/db.properties",
                 "/src/main/resources/login.properties"
@@ -33,15 +30,15 @@ public class Starter {
 
         try {
             employeeDAO = EmployeeDAOFactory.generateEmployeeDAO("employee", db);
+
         } catch (EmployeeLoaderException e) {
             e.printStackTrace();
         }
 
-
-
         EmployeeArrayParser employeeParser = ReadCSV.connectToFile("src/main/resources/EmployeeRecordsLarge.csv");
 
         if (employeeDAO != null) {
+            logger.log(Level.FINE, "Creating and Dropping database");
             employeeDAO.dropEmployeeTable();
             employeeDAO.createEmployeeTable();
 
@@ -52,16 +49,8 @@ public class Starter {
             employeeDAO.insertEmployeesConcurrent(employeeParser.validData);
 
             System.out.println("Time taken to insert: "+ (System.nanoTime()-startTime) / 1000000000F + " seconds");
+            DisplayManager.getSummaryOfRecords(employeeParser.validData, employeeParser.corruptedData, employeeParser.duplicateCounter);
 
-
-            /*
-            try {
-                DisplayManager.printEmployees(employeeDAO.selectAllEmployees());
-            } catch (SQLRowNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-             */
 
         } else {
             logger.log(Level.INFO, "employeeDAO was not instantiated");
