@@ -15,6 +15,10 @@ public class ArgumentHandler {
                 if (rowCount > 0) {
                     return rowCount;
                 }
+                else {
+                    return 65000;
+                }
+
             } catch (NumberFormatException e) {
                 LoggerSingleton.getSingleton().getLogger().log(Level.FINE, "No parsable int in argument: " + arg);
             }
