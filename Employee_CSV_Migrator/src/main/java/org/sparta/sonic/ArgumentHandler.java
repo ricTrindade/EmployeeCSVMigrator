@@ -8,13 +8,12 @@ public class ArgumentHandler {
 
     // Number of rows user expects from the csv
     static int getRowCount(String[] args) {
-        int rowCount = 0;
+        int rowCount = 65000; // Expected size
         for (String arg : args) {
-
             try {
                 rowCount = Integer.parseInt(arg);
                 if (rowCount > 0) {
-                    break;
+                    return rowCount;
                 }
             } catch (NumberFormatException e) {
                 LoggerSingleton.getSingleton().getLogger().log(Level.FINE, "No parsable int in argument: " + arg);
