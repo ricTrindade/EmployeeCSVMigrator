@@ -20,23 +20,11 @@ import java.util.logging.Logger;
 public class DisplayManager {
     private static final Logger logger = LoggerSingleton.getSingleton().getLogger();
     //fields
-    ArrayList<Employee> cleanedArrayList;
-    ArrayList<Employee> corruptedArrayList;
 
-    //constructor
-    public DisplayManager(ArrayList<Employee> cleanedArrayList, ArrayList<Employee> corruptedArrayList) {
-        this.cleanedArrayList = cleanedArrayList;
-        this.corruptedArrayList = corruptedArrayList;
-    }
-
-    public void PrintAll() {
-        System.out.println("Amount of unique records: "+getCleanedArraySize());
-        System.out.println("Amount of corrupted records: "+getCorruptedArraySize());
-        System.out.println("Amount of duplicates: "+ getDuplicateCount());
-    }
 
     public static void printEmployees(ArrayList<Employee> employees) {
         for (Employee employee : employees) {
+            logger.log(Level.FINER, "Printing Employee Array");
             printEmployee(employee);
             System.out.print("\n");
         }
@@ -51,6 +39,7 @@ public class DisplayManager {
                 Object value = field.get(employee);
                 if (!field.getName().equals("isValid")) {
                     System.out.println(field.getName()+": "+value);
+                    logger.log(Level.FINEST, "Printing Employee");
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -58,22 +47,23 @@ public class DisplayManager {
         }
     }
 
-
-    public int getCleanedArraySize() {
-        return cleanedArrayList.size();
+    public static void getSummaryOfRecords(ArrayList<Employee> validData,ArrayList<Employee> corruptedData, int duplicateCounter) {
+        int choice = 0;
+        logger.log(Level.FINE, "Printing Summary");
+        System.out.println("Summary of records below: ");
+        System.out.println("Number of Clean Records: " + getEmployeeArraySize(validData));
+        System.out.println("Number of Corrupted Records: " + getEmployeeArraySize(corruptedData));
+        System.out.println("Of which are Duplications: " + duplicateCounter);
+        System.out.println("Please enter 1 to see corrupted records, otherwise enter 2 to terminate");
+        choice = Utils.scannedInteger();
+        if(choice == 1){
+            printEmployees(corruptedData);
+        }
     }
 
-    public int getCorruptedArraySize() {
-        return corruptedArrayList.size();
+
+    public static int getEmployeeArraySize(ArrayList<Employee> whichData) {
+        return whichData.size();
     }
 
-
-    //how many duplicates
-    //want to change to private but public for testing?
-    public int getDuplicateCount() {
-        //sets have to be unique whereas arraylists dont
-        //so just compare size to see how many are unique
-        Set<Employee> corruptedSet = new HashSet<>(corruptedArrayList);
-        return corruptedArrayList.size() - corruptedSet.size();
-    }
 }

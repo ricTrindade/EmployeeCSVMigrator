@@ -17,8 +17,10 @@ public class EmployeeArrayParser {
     public ArrayList <Employee> validData;
     public ArrayList <Employee> corruptedData;
 
-    private static HashSet <Integer> checkDuplicateID;
-    private static HashSet <String>  checkDuplicateEmail;
+    public static HashSet <Integer> checkDuplicateID;
+    public static HashSet <String>  checkDuplicateEmail;
+
+    public static int duplicateCounter;
 
     // Constructor
     public EmployeeArrayParser() {
@@ -65,24 +67,24 @@ public class EmployeeArrayParser {
             return false;
         }
         if(employee.getMiddleInitial().equals("FALSE")) {
-            logger.log(Level.FINEST, "Middle initial");
+            logger.log(Level.FINEST, "Middle initial" +"EmployeeID"+employee.getId());
             return false;
         }
         if(employee.getGender() == 'X') {
-            logger.log(Level.FINEST, "Gender");
+            logger.log(Level.FINEST, "Gender" +"EmployeeID" +employee.getId());
             return false;
         }
         if(employee.getSalary() <= 0 ) {
-            logger.log(Level.FINEST, "Salary");
+            logger.log(Level.FINEST, "Salary" +"EmployeeID" +employee.getId());
             return false;
         }
         if(employee.getDateOfBirth().after(Date.valueOf("2022-10-28"))) {
-            logger.log(Level.FINEST, "DOB");
+            logger.log(Level.FINEST, "DOB" +"EmployeeID" +employee.getId());
             return false;
         }
         if(employee.getDateOfJoining().after(Date.valueOf("2022-10-28")))
         {
-            logger.log(Level.FINEST, "Date of joining"+employee.getDateOfJoining());
+            logger.log(Level.FINEST, "Date of joining" +"EmployeeID" +employee.getId());
             return false;
         }
         return true;
@@ -95,10 +97,12 @@ public class EmployeeArrayParser {
         if(!checkEmail)
         {
             logger.log(Level.FINEST, "ID: "+employee.getId()+" Email duplicate: "+ employee.getEmail());
+            duplicateCounter++;
         }
         if(!checkID)
         {
             logger.log(Level.FINEST, "ID duplicate"+ employee.getId());
+            duplicateCounter++;
         }
 
         return !checkID || !checkEmail;
