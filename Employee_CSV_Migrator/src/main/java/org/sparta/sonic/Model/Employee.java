@@ -2,7 +2,8 @@ package org.sparta.sonic.Model;
 
 import java.sql.Date;
 
-public class Employee {
+public class
+Employee {
 
     // Fields
     private int     id;
