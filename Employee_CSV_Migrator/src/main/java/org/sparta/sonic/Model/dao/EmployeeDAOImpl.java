@@ -10,15 +10,29 @@ import org.sparta.sonic.Model.factory.EmployeeFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.*;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     private final DBConnection db;
 
+
     public EmployeeDAOImpl(DBConnection db) {
         this.db = db;
     }
 
+    /*
+    ExecutorService threadPool = new ThreadPoolExecutor(
+            74,
+            74,
+            0L,
+            TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(10),
+            new ThreadPoolExecutor.CallerRunsPolicy());
+
+
+     */
+    ExecutorService threadPool = Executors.newFixedThreadPool(149);
 
     @Override
     public ArrayList<Employee> selectAllEmployees() throws SQLRowNotFoundException {
@@ -234,24 +248,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         int sizePerArray = employees.size()/threadCount;
         int remainder = employees.size()%threadCount;
         int remainderStart = 0;
-
+        ArrayList<Future> futures = new ArrayList<>();
 
         //array list of 100
         //thread 1: 0-50
         //thread 2: 50-100
 
-        Thread[] threadArray = new Thread[threadCount];
         for (int i = 0;i<threadCount;i++){
             int finalI = i;
-            threadArray[i] = new Thread(){
+            futures.add(threadPool.submit(new Thread(){
                 public void run() {
 
                     int[] ints = insertEmployees(employees, finalI * sizePerArray
                             , (finalI + 1) * sizePerArray);
                     System.out.println("Thread: "+finalI);
                 }
-            };
-            threadArray[i].start();
+            }));
 
             if(i==threadCount-1)
             {
@@ -260,31 +272,24 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }
         int finalRemainderStart = remainderStart;
         int finalRemainderStart1 = remainderStart;
-        Thread lastThread = new Thread(){
+        futures.add(threadPool.submit(new Thread(){
             public void run() {
 
                 int[] ints = insertEmployees(employees, finalRemainderStart
                         , finalRemainderStart1 +remainder);
                 System.out.println("FINAL THREAD");
             }
-        };
-        lastThread.start();
+        }));
 
-        for (int i = 0;i<threadCount;i++){
+        for (Future future : futures){
             try {
-                threadArray[i].join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         }
 
-        try {
-            lastThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        threadPool.shutdown();
     }
 
 
